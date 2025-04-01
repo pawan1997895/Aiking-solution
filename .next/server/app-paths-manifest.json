@@ -1,5 +1,0 @@
-{
-  "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/atsresume/page": "app/atsresume/page.js",
-  "/atsresume/createresume/page": "app/atsresume/createresume/page.js"
-}

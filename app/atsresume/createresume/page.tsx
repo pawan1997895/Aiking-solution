@@ -8,12 +8,11 @@ import { ref, getDatabase, get } from "firebase/database";
 import { getAuth } from "firebase/auth";
 import app from "@/firebase/config";
 import fillResumeData from "../../oneclick/page"; // Import the function
-import sampleData from "../../sampleResume.json";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { useThemeStore } from "@/app/store";
-import Modern from "@/components/resume_templates/modern";
-import Leafish from "@/components/resume_templates/leafish";
-import Celibi from "@/components/resume_templates/Celibi";
+import Luxary from "@/components/resume_templates/luxary";
+import Unique from "@/components/resume_templates/Unique";
+import NewResume from "@/components/resume_templates/new";
 
 const CreateResume: React.FC = () => {
   const contentRef = useRef<HTMLDivElement>(null);
@@ -28,14 +27,17 @@ const CreateResume: React.FC = () => {
   console.log(uid, "uid");
   const datapath = ref(db, "user/" + uid + "/" + "resume_data/" + "newData/");
 
-  const templateComponents: { [key: string]: React.FC } = {
-    bonzor: Resume,
-    modern: Modern,
-    classic: Leafish,
-    creative: Celibi,
-  };
+// In CreateResume.tsx
+const templateComponents = {
+  'bonzor': Resume,
+  'luxary': Luxary,
+  'unique': Unique,
+  'new resume': NewResume,
+};
 
-  const SelectedTemplateComponent = templateComponents[selectedTemplate] || Resume; // Default to Bonzor if invalid
+// Fix the selected template logic
+const SelectedTemplateComponent = templateComponents[selectedTemplate.toLowerCase()] || Resume;
+
 
   useEffect(() => {
     const fetchDataAsync = async () => {

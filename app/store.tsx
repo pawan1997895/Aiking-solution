@@ -568,6 +568,6 @@ export const useThemeStore = create<ThemeState>((set) => ({
   setHideIcons: (hide) => set({ hideIcons: hide }),
   underlineLinks: true,
   setUnderlineLinks: (underline) => set({ underlineLinks: underline }),
-  selectedTemplate: 'bonzor', // Default template
-  setSelectedTemplate: (template) => set({ selectedTemplate: template }), // Setter
+  selectedTemplate: 'bonzor', // Use lowercase here
+  setSelectedTemplate: (template) => set({ selectedTemplate: template.toLowerCase() }),
 }));
