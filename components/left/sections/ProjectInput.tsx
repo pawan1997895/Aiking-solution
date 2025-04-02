@@ -8,7 +8,8 @@ import { useProjectStore } from "@/app/store";
 export default function ProjectInput() {
   const [isOpen, setIsOpen] = useState(false);
   const [editId, setEditId] = useState<string | null>(null);
-  const { projects, addProject, updateProject, deleteProject } = useProjectStore();
+  const { projects, addProject, updateProject, deleteProject } =
+    useProjectStore();
   const [formData, setFormData] = useState({
     name: "",
     date: "",
@@ -16,7 +17,9 @@ export default function ProjectInput() {
     description: "",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -27,7 +30,12 @@ export default function ProjectInput() {
     if (editId) {
       updateProject(editId, formData.name, formData.description);
     } else {
-      addProject(formData.name, formData.description, formData.website, formData.date);
+      addProject(
+        formData.name,
+        formData.description,
+        formData.website,
+        formData.date
+      );
     }
 
     setFormData({ name: "", date: "", website: "", description: "" });
@@ -67,7 +75,10 @@ export default function ProjectInput() {
       {projects.length > 0 && (
         <div className="mb-4 space-y-2">
           {projects.map((project) => (
-            <div key={project.id} className="p-2 bg-gray-100 rounded-md flex justify-between items-center">
+            <div
+              key={project.id}
+              className="p-2 bg-gray-100 rounded-md flex justify-between items-center"
+            >
               <div>
                 <strong>{project.name}</strong>
                 <p className="text-sm text-gray-600">{project.date}</p>
@@ -116,7 +127,9 @@ export default function ProjectInput() {
           >
             {/* Modal Header */}
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-lg font-semibold">{editId ? "Edit Project" : "Add Project"}</h2>
+              <h2 className="text-lg font-semibold">
+                {editId ? "Edit Project" : "Add Project"}
+              </h2>
               <button onClick={() => setIsOpen(false)}>
                 <FaTimes size={18} />
               </button>
@@ -138,6 +151,7 @@ export default function ProjectInput() {
                 className="w-full p-2 border rounded-md bg-black text-white"
                 value={formData.date}
                 onChange={handleChange}
+                onFocus={(e) => e.target.showPicker()} // Show the date picker
               />
               <input
                 type="url"
@@ -159,7 +173,10 @@ export default function ProjectInput() {
 
               {/* Submit Button */}
               <div className="flex justify-end">
-                <button type="submit" className="px-4 py-2 bg-white text-black rounded-md">
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-white text-black rounded-md"
+                >
                   {editId ? "Update" : "Save"}
                 </button>
               </div>

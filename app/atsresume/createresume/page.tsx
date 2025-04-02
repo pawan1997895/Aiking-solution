@@ -28,7 +28,7 @@ const CreateResume: React.FC = () => {
   const datapath = ref(db, "user/" + uid + "/" + "resume_data/" + "newData/");
 
 // In CreateResume.tsx
-const templateComponents = {
+const templateComponents : any = {
   'bonzor': Resume,
   'luxary': Luxary,
   'unique': Unique,
@@ -276,7 +276,7 @@ Return the updated resume in **JSON format** ensuring all key names, structures,
         <Rightsidebar />
         <button
           className="inline-flex items-center px-3 py-1 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-200 print:hidden"
-          onClick={handlePrint}
+          onClick={()=>handlePrint()}
         >
           Print
         </button>

@@ -6,7 +6,8 @@ import { Pencil, Trash2 } from "lucide-react";
 import { GiGraduateCap } from "react-icons/gi";
 
 export default function EducationInput() {
-  const {educations, addEducation, updateEducation, deleteEducation } = useEducationStore(); 
+  const { educations, addEducation, updateEducation, deleteEducation } =
+    useEducationStore();
   const [isOpen, setIsOpen] = useState(false);
   const [editId, setEditId] = useState<string | null>(null);
 
@@ -20,14 +21,17 @@ export default function EducationInput() {
   });
 
   // Handle Form Changes
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   // Form Submission
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.institute || !formData.typeofstudy || !formData.areaofstudy) return;
+    if (!formData.institute || !formData.typeofstudy || !formData.areaofstudy)
+      return;
 
     if (editId) {
       updateEducation(
@@ -36,7 +40,7 @@ export default function EducationInput() {
         formData.areaofstudy,
         formData.typeofstudy,
         formData.dateRange,
-        formData.score,
+        formData.score
       );
     } else {
       addEducation(
@@ -44,12 +48,19 @@ export default function EducationInput() {
         formData.areaofstudy,
         formData.typeofstudy,
         formData.dateRange,
-        formData.score,
+        formData.score
       );
     }
 
     // Reset Form and Close Modal
-    setFormData({ institute: "", dateRange: "", areaofstudy: "", typeofstudy: "", score: "", location: "" });
+    setFormData({
+      institute: "",
+      dateRange: "",
+      areaofstudy: "",
+      typeofstudy: "",
+      score: "",
+      location: "",
+    });
     setEditId(null);
     setIsOpen(false);
   };
@@ -70,8 +81,6 @@ export default function EducationInput() {
       setEditId(id);
     }
   };
-  
-
 
   // Handle Delete
   const handleDelete = (id: string) => {
@@ -102,15 +111,35 @@ export default function EducationInput() {
           </svg>
         </button>
       </div>
+
+      {/* Display Education List */}
       {educations.length > 0 && (
-        <div>
+        <div className="mb-4 space-y-2">
           {educations.map((education) => (
-            <div key={education.id} className="flex justify-between items-center border-b py-2">
-              <span>{education.institute}</span>
+            <div
+              key={education.id}
+              className="p-2 bg-gray-100 rounded-md flex justify-between items-center"
+            >
+              <div>
+                <strong>{education.institute}</strong>
+                <p className="text-sm text-gray-600">{education.typeofstudy}</p>
+                <p className="text-sm text-gray-600">{education.areaofstudy}</p>
+                <p className="text-sm text-gray-600">{education.dateRange}</p>
+                {education.score && (
+                  <p className="text-xs text-gray-500">
+                    Score: {education.score}
+                  </p>
+                )}
+                {education.location && (
+                  <p className="text-xs text-gray-500">
+                    Location: {education.location}
+                  </p>
+                )}
+              </div>
               <div className="flex gap-2">
                 <button onClick={() => handleEdit(education.id)}>
-                  <Pencil className="w-4 h-4 text-blue-700" />
-                </button>
+                  <Pencil className="w-4 h-4 text-blue text-red-700" />
+                </button>{" "}
                 <button onClick={() => handleDelete(education.id)}>
                   <Trash2 className="w-4 h-4 text-red-700" />
                 </button>
@@ -119,6 +148,7 @@ export default function EducationInput() {
           ))}
         </div>
       )}
+
       <button
         onClick={() => {
           setIsOpen(true);
@@ -128,45 +158,50 @@ export default function EducationInput() {
       >
         + Add a new item
       </button>
-      <div className="flex items-center justify-center">
-        {isOpen && (
-          <div className="fixed inset-0 flex items-center justify-center bg-opacity-50">
-            <div className="bg-[#141414] text-white p-6 rounded-lg w-[600px] shadow-lg">
-              {/* Header */}
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-lg font-semibold">Add Education</h2>
-                <button onClick={() => setIsOpen(false)}>
-                  <FaTimes size={18} />
-                </button>
-              </div>
 
-              {/* Form */}
+      {/* Modal */}
+      {isOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-[#141414] text-white p-6 rounded-lg w-[600px] shadow-lg">
+            {/* Header */}
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-lg font-semibold">
+                {editId ? "Edit Education" : "Add Education"}
+              </h2>
+              <button onClick={() => setIsOpen(false)}>
+                <FaTimes size={18} />
+              </button>
+            </div>
+
+            {/* Form */}
+            <form onSubmit={handleSubmit}>
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <input
                   type="text"
-                  name="institute" // Corrected to match formData key
+                  name="institute"
                   placeholder="Institute"
                   className="w-full p-2 bg-black border rounded-md"
                   value={formData.institute}
                   onChange={handleChange}
+                  required
                 />
-
                 <input
                   type="text"
-                  name="typeofstudy" // Corrected to match formData key
+                  name="typeofstudy"
                   placeholder="Type of Study"
                   className="w-full p-2 bg-black border rounded-md"
                   value={formData.typeofstudy}
                   onChange={handleChange}
+                  required
                 />
-
                 <input
                   type="text"
-                  name="areaofstudy" // Corrected to match formData key
+                  name="areaofstudy"
                   placeholder="Area of Study"
                   className="w-full p-2 bg-black border rounded-md"
                   value={formData.areaofstudy}
                   onChange={handleChange}
+                  required
                 />
                 <input
                   type="number"
@@ -178,12 +213,13 @@ export default function EducationInput() {
                   step="0.01" // Allows decimal values
                 />
                 <input
-                  type="text"
+                  type="date"
                   name="dateRange"
                   className="w-full p-2 bg-black border rounded-md"
                   value={formData.dateRange}
                   placeholder="Date Range"
                   onChange={handleChange}
+                  onFocus={(e) => e.target.showPicker()} // Show the date picker
                 />
                 <input
                   type="text"
@@ -196,14 +232,17 @@ export default function EducationInput() {
               </div>
               {/* Footer */}
               <div className="flex justify-end">
-                <button className="px-4 py-2 bg-white text-black rounded-md" onClick={handleSubmit}>
-                {editId ? 'Update' : 'Create'}
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-white text-black rounded-md"
+                >
+                  {editId ? "Update" : "Create"}
                 </button>
               </div>
-            </div>
+            </form>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </section>
   );
 }

@@ -150,6 +150,7 @@ export default function CertificationInput() {
                 className="w-full p-2 border rounded-md bg-black text-white"
                 value={formData.date}
                 onChange={handleChange}
+                onFocus={(e) => e.target.showPicker()} // Show the date picker
               />
               <input
                 type="url"

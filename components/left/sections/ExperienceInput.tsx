@@ -6,7 +6,8 @@ import { Pencil, Trash2 } from "lucide-react";
 import { useExperienceStore } from "@/app/store";
 
 export default function ExperienceInput() {
-  const { experiences, addExperience, updateExperience, deleteExperience } = useExperienceStore();
+  const { experiences, addExperience, updateExperience, deleteExperience } =
+    useExperienceStore();
   const [isOpen, setIsOpen] = useState(false);
   const [formData, setFormData] = useState({
     company: "",
@@ -49,7 +50,13 @@ export default function ExperienceInput() {
       );
     }
 
-    setFormData({ company: "", position: "", dateRange: "", location: "", description: "" }); // Reset form
+    setFormData({
+      company: "",
+      position: "",
+      dateRange: "",
+      location: "",
+      description: "",
+    }); // Reset form
     setIsOpen(false); // Close modal after submission
     setEditId(null);
   };
@@ -79,10 +86,25 @@ export default function ExperienceInput() {
 
       {/* Display Experience List */}
       {experiences.length > 0 && (
-        <div>
+        <div className="mb-4 space-y-2">
           {experiences.map((experience) => (
-            <div key={experience.id} className="flex justify-between items-center p-2 border-b">
-              <span>{experience.company}</span>
+            <div
+              key={experience.id}
+              className="p-2 bg-gray-100 rounded-md flex justify-between items-center"
+            >
+              <div>
+                <strong>{experience.company}</strong>
+                <p className="text-sm text-gray-600">{experience.position}</p>
+                <p className="text-sm text-gray-600">{experience.dateRange}</p>
+                {experience.location && (
+                  <p className="text-xs text-gray-500">
+                    Location: {experience.location}
+                  </p>
+                )}
+                <p className="text-xs text-gray-500">
+                  {experience.description}
+                </p>
+              </div>
               <div className="flex gap-2">
                 <button onClick={() => handleEdit(experience.id)}>
                   <Pencil className="w-4 h-4 text-blue-700" />
@@ -113,7 +135,9 @@ export default function ExperienceInput() {
           <div className="bg-[#141414] text-white p-6 rounded-lg w-[600px] shadow-lg">
             {/* Modal Header */}
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-lg font-semibold">{editId ? "Edit Experience" : "Add Experience"}</h2>
+              <h2 className="text-lg font-semibold">
+                {editId ? "Edit Experience" : "Add Experience"}
+              </h2>
               <button onClick={() => setIsOpen(false)}>
                 <FaTimes size={18} />
               </button>
@@ -141,12 +165,13 @@ export default function ExperienceInput() {
                   required
                 />
                 <input
-                  type="text"
+                  type="date"
                   name="dateRange"
                   placeholder="DD MM YYYY - Present"
                   className="w-full p-2 bg-black border rounded-md"
                   value={formData.dateRange}
                   onChange={handleChange}
+                  onFocus={(e) => e.target.showPicker()} // Calendar open karne ke liye
                 />
                 <input
                   type="text"
@@ -160,7 +185,9 @@ export default function ExperienceInput() {
 
               {/* Description Textarea */}
               <div className="mb-4">
-                <label className="block text-sm font-medium mb-2">Description</label>
+                <label className="block text-sm font-medium mb-2">
+                  Description
+                </label>
                 <textarea
                   name="description"
                   className="w-full p-3 bg-black border rounded-md min-h-[150px]"
@@ -172,7 +199,10 @@ export default function ExperienceInput() {
 
               {/* Modal Footer */}
               <div className="flex justify-end">
-                <button type="submit" className="px-4 py-2 bg-white text-black rounded-md">
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-white text-black rounded-md"
+                >
                   {editId ? "Update" : "Create"}
                 </button>
               </div>

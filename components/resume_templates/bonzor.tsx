@@ -12,7 +12,6 @@ import {
   useThemeStore,
 } from "@/app/store";
 
-
 export default function Resume() {
   // Access data from Zustand stores
   const { personalData } = usePersonalDataStore();
@@ -35,21 +34,19 @@ export default function Resume() {
     underlineLinks,
     hideIcons,
   } = useThemeStore();
-  
 
   const basePageHeight = 964; // pixels, exact A4 height (297mm)
   const paddingTopBottom = 40; // pixels, padding for screen display
   const contentWrapperHeight = basePageHeight % 90;
   const availableContentHeight = basePageHeight - 2 * paddingTopBottom; // 1043px for content
-  
+
   const pageHeightClass = `h-[${basePageHeight}px]`;
   const contentHeightClass = `h-[${contentWrapperHeight}px] print:h-auto`;
-  
+
   // Refs and state for pagination
   const contentRef = useRef<HTMLDivElement | null>(null);
   const [pageGroups, setPageGroups] = useState<any[]>([]);
   const [isMounted, setIsMounted] = useState(false);
-
 
   // Ensure component is mounted before measuring
   useEffect(() => {
@@ -61,16 +58,28 @@ export default function Resume() {
     const elements = [];
 
     // 1. Contact Information - Personal Header
-    elements.push({ id: "personal-header", type: "personal-header", data: personalData });
+    elements.push({
+      id: "personal-header",
+      type: "personal-header",
+      data: personalData,
+    });
 
     // 1. Contact Information - Personal Contact
     if (personalData.address || personalData.phone || personalData.email) {
-      elements.push({ id: "personal-contact", type: "personal-contact", data: personalData });
+      elements.push({
+        id: "personal-contact",
+        type: "personal-contact",
+        data: personalData,
+      });
     }
 
     // 2. Work Experience
     if (experiences.length) {
-      elements.push({ id: "experience-header", type: "section-header", section: "WORK EXPERIENCE" });
+      elements.push({
+        id: "experience-header",
+        type: "section-header",
+        section: "WORK EXPERIENCE",
+      });
       experiences.forEach((exp, index) => {
         elements.push({
           id: `experience-${index}-header`,
@@ -79,7 +88,9 @@ export default function Resume() {
           section: "WORK EXPERIENCE",
         });
         if (exp.description) {
-          const descriptionItems = exp.description.split(",").map((detail) => detail.trim());
+          const descriptionItems = exp.description
+            .split(",")
+            .map((detail) => detail.trim());
           descriptionItems.forEach((detail, i) =>
             elements.push({
               id: `experience-${index}-desc-${i}`,
@@ -94,7 +105,11 @@ export default function Resume() {
 
     // 3. Projects
     if (projects.length) {
-      elements.push({ id: "projects-header", type: "section-header", section: "PROJECTS" });
+      elements.push({
+        id: "projects-header",
+        type: "section-header",
+        section: "PROJECTS",
+      });
       projects.forEach((proj, index) => {
         elements.push({
           id: `project-${index}-header`,
@@ -115,7 +130,11 @@ export default function Resume() {
 
     // 4. Skills
     if (skills.length) {
-      elements.push({ id: "skills-header", type: "section-header", section: "SKILLS" });
+      elements.push({
+        id: "skills-header",
+        type: "section-header",
+        section: "SKILLS",
+      });
       skills.forEach((skill, index) =>
         elements.push({
           id: `skill-${index}`,
@@ -128,7 +147,11 @@ export default function Resume() {
 
     // 5. Education
     if (educations.length) {
-      elements.push({ id: "education-header", type: "section-header", section: "EDUCATION" });
+      elements.push({
+        id: "education-header",
+        type: "section-header",
+        section: "EDUCATION",
+      });
       educations.forEach((edu, index) =>
         elements.push({
           id: `education-${index}`,
@@ -141,7 +164,11 @@ export default function Resume() {
 
     // 6. Certifications
     if (certificates.length) {
-      elements.push({ id: "certifications-header", type: "section-header", section: "CERTIFICATIONS" });
+      elements.push({
+        id: "certifications-header",
+        type: "section-header",
+        section: "CERTIFICATIONS",
+      });
       certificates.forEach((certificate, index) =>
         elements.push({
           id: `certificate-${index}`,
@@ -154,7 +181,11 @@ export default function Resume() {
 
     // 7. Awards & Achievements
     if (achievements.length) {
-      elements.push({ id: "awards-header", type: "section-header", section: "AWARDS" });
+      elements.push({
+        id: "awards-header",
+        type: "section-header",
+        section: "AWARDS",
+      });
       achievements.forEach((achievement, index) =>
         elements.push({
           id: `achievement-${index}`,
@@ -167,7 +198,11 @@ export default function Resume() {
 
     // 8. Languages & Interests (only Languages in current data)
     if (languages.length) {
-      elements.push({ id: "languages-header", type: "section-header", section: "LANGUAGES" });
+      elements.push({
+        id: "languages-header",
+        type: "section-header",
+        section: "LANGUAGES",
+      });
       languages.forEach((language, index) =>
         elements.push({
           id: `language-${index}`,
@@ -181,9 +216,7 @@ export default function Resume() {
     return elements;
   };
 
-
   useEffect(() => {
-
     const elements = generateElements();
     const pageHeight = availableContentHeight;
     const pageGroupsTemp = [];
@@ -191,7 +224,7 @@ export default function Resume() {
     let currentHeight = 0;
     let i = 0;
 
-    const measureElementHeight = (element : any) => {
+    const measureElementHeight = (element: any) => {
       const elementNode = contentRef.current?.querySelector(`#${element.id}`);
       return elementNode?.scrollHeight || 0;
     };
@@ -208,7 +241,10 @@ export default function Resume() {
 
       if (element.type === "experience-header") {
         let nextDescHeight = 0;
-        if (i + 1 < elements.length && elements[i + 1].type === "experience-desc") {
+        if (
+          i + 1 < elements.length &&
+          elements[i + 1].type === "experience-desc"
+        ) {
           nextDescHeight = measureElementHeight(elements[i + 1]);
         }
         const totalHeight = elementHeight + nextDescHeight;
@@ -266,18 +302,30 @@ export default function Resume() {
   const renderElement = (element: any, isFirstInSection: boolean) => {
     const linkStyle = underlineLinks ? "underline" : "no-underline";
     const iconDisplay = hideIcons ? "hidden" : "block";
-    
 
     switch (element.type) {
       case "personal-header":
         return (
-          <div className="mb-6 text-center" >
+          <div className="mb-6 text-center">
             {/* Apply font family and color only to the name */}
-            <h1 className="text-3xl font-bold" style={{ fontFamily: selectedFont, fontWeight, fontStyle, fontSize: `${fontSize}px`, lineHeight: lineHeight, color: primaryColor  }}>
+            <h1
+              className="text-3xl font-bold"
+              style={{
+                fontFamily: selectedFont,
+                fontWeight,
+                fontStyle,
+                fontSize: `${fontSize}px`,
+                lineHeight: lineHeight,
+                color: primaryColor,
+              }}
+            >
               {element.data.name || "Your Name"}
             </h1>
             {/* Keep headline in default styling */}
-            <h2 className="text-lg text-gray-600 mt-2" style={{ fontWeight, fontStyle }}>
+            <h2
+              className="text-lg text-gray-600 mt-2"
+              style={{ fontWeight, fontStyle }}
+            >
               {element.data.headline || "Your Professional Headline"}
             </h2>
           </div>
@@ -288,7 +336,11 @@ export default function Resume() {
             <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-sm text-gray-600">
               {element.data.email && (
                 <div className="flex items-center space-x-1">
-                  <svg className={`w-4 h-4 text-gray-500 flex-shrink-0 ${iconDisplay}`} viewBox="0 0 24 24" fill="none">
+                  <svg
+                    className={`w-4 h-4 text-gray-500 flex-shrink-0 ${iconDisplay}`}
+                    viewBox="0 0 24 24"
+                    fill="none"
+                  >
                     <path
                       d="M4 4h16v16H4V4zm0 4l8 5 8-5"
                       stroke="currentColor"
@@ -297,14 +349,21 @@ export default function Resume() {
                       strokeLinejoin="round"
                     />
                   </svg>
-                  <a href={`mailto:${element.data.email}`} className={`text-blue-600 ${linkStyle}`}>
+                  <a
+                    href={`mailto:${element.data.email}`}
+                    className={`text-blue-600 ${linkStyle}`}
+                  >
                     {element.data.email}
                   </a>
                 </div>
               )}
               {element.data.website && (
                 <div className="flex items-center space-x-1 print:hidden">
-                  <svg className={`w-4 h-4 text-gray-500 flex-shrink-0 ${iconDisplay}`} viewBox="0 0 24 24" fill="none">
+                  <svg
+                    className={`w-4 h-4 text-gray-500 flex-shrink-0 ${iconDisplay}`}
+                    viewBox="0 0 24 24"
+                    fill="none"
+                  >
                     <path
                       d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 4a6 6 0 016 6 6 6 0 01-6 6 6 6 0 01-6-6 6 6 0 016-6zm0 2v8m-4-4h8"
                       stroke="currentColor"
@@ -329,7 +388,11 @@ export default function Resume() {
               )}
               {element.data.twitter && (
                 <div className="flex items-center space-x-1 print:hidden">
-                  <svg className={`w-4 h-4 text-gray-500 flex-shrink-0 ${iconDisplay}`} viewBox="0 0 24 24" fill="none">
+                  <svg
+                    className={`w-4 h-4 text-gray-500 flex-shrink-0 ${iconDisplay}`}
+                    viewBox="0 0 24 24"
+                    fill="none"
+                  >
                     <path
                       d="M22 4.5a9 9 0 01-2.6.7 4.5 4.5 0 00-7.7 4c-4 0-7.5-2-10-5a4.5 4.5 0 001.5 6c-1 0-2-.3-2.5-1v.1a4.5 4.5 0 003.5 4.4 4.5 4.5 0 01-2 .1 4.5 4.5 0 004.2 3A9 9 0 012 19c2 1 4 1.5 6.5 1.5 7.5 0 12-6 12-12v-.5a8.5 8.5 0 002-2.5z"
                       stroke="currentColor"
@@ -337,7 +400,10 @@ export default function Resume() {
                     />
                   </svg>
                   <a
-                    href={`https://twitter.com/${element.data.twitter.replace("@", "")}`}
+                    href={`https://twitter.com/${element.data.twitter.replace(
+                      "@",
+                      ""
+                    )}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className={`text-blue-600 ${linkStyle}`}
@@ -348,7 +414,11 @@ export default function Resume() {
               )}
               {element.data.linkedin && (
                 <div className="flex items-center space-x-1 print:hidden">
-                  <svg className={`w-4 h-4 text-gray-500 flex-shrink-0 ${iconDisplay}`} viewBox="0 0 24 24" fill="none">
+                  <svg
+                    className={`w-4 h-4 text-gray-500 flex-shrink-0 ${iconDisplay}`}
+                    viewBox="0 0 24 24"
+                    fill="none"
+                  >
                     <path
                       d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"
                       stroke="currentColor"
@@ -388,7 +458,11 @@ export default function Resume() {
               )}
               {element.data.phone && (
                 <div className="flex items-center space-x-1">
-                  <svg className={`w-4 h-4 text-gray-500 flex-shrink-0 ${iconDisplay}`} viewBox="0 0 24 24" fill="none">
+                  <svg
+                    className={`w-4 h-4 text-gray-500 flex-shrink-0 ${iconDisplay}`}
+                    viewBox="0 0 24 24"
+                    fill="none"
+                  >
                     <path
                       d="M3 5l4-1 2 3-3 4 5 5 4-3 3 2-1 4H5L3 5z"
                       stroke="currentColor"
@@ -397,14 +471,21 @@ export default function Resume() {
                       strokeLinejoin="round"
                     />
                   </svg>
-                  <a href={`tel:${element.data.phone}`} className={`text-blue-600 ${linkStyle}`}>
+                  <a
+                    href={`tel:${element.data.phone}`}
+                    className={`text-blue-600 ${linkStyle}`}
+                  >
                     {element.data.phone}
                   </a>
                 </div>
               )}
               {element.data.address && (
                 <div className="flex items-center space-x-1">
-                  <svg className={`w-4 h-4 text-gray-500 flex-shrink-0 ${iconDisplay}`} viewBox="0 0 24 24" fill="none">
+                  <svg
+                    className={`w-4 h-4 text-gray-500 flex-shrink-0 ${iconDisplay}`}
+                    viewBox="0 0 24 24"
+                    fill="none"
+                  >
                     <path
                       d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"
                       stroke="currentColor"
@@ -432,7 +513,6 @@ export default function Resume() {
                     viewBox="0 0 24 24"
                     fill="currentColor"
                     xmlns="http://www.w3.org/2000/svg"
-                    
                   >
                     <path
                       fillRule="evenodd"
@@ -449,7 +529,6 @@ export default function Resume() {
                     {element.data.github}
                   </a>
                 </div>
-
               )}
             </div>
           </section>
@@ -458,7 +537,17 @@ export default function Resume() {
         return (
           <div className="border-t border-gray-200 pt-4 mb-4">
             {/* Apply font family and color to section headers */}
-            <h3 className="text-lg font-bold" style={{ fontFamily: selectedFont, fontWeight, fontStyle, fontSize: `${fontSize}px`, lineHeight: lineHeight, color: primaryColor}}>
+            <h3
+              className="text-lg font-bold"
+              style={{
+                fontFamily: selectedFont,
+                fontWeight,
+                fontStyle,
+                fontSize: `${fontSize}px`,
+                lineHeight: lineHeight,
+                color: primaryColor,
+              }}
+            >
               {element.section}
             </h3>
           </div>
@@ -472,9 +561,13 @@ export default function Resume() {
                 {element.data.company}, {element.data.location}
               </span>
               {/* Keep date range in default styling */}
-              <span className="text-sm text-gray-500" style={{ fontStyle }}>{element.data.dateRange}</span>
+              <span className="text-sm text-gray-500" style={{ fontStyle }}>
+                {element.data.dateRange}
+              </span>
             </div>
-            <p className="text-sm italic text-gray-600" style={{ fontStyle }}>{element.data.position}</p>
+            <p className="text-sm italic text-gray-600" style={{ fontStyle }}>
+              {element.data.position}
+            </p>
           </div>
         );
       case "experience-desc":
@@ -493,15 +586,15 @@ export default function Resume() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`text-base font-medium ${linkStyle}`}
-                
               >
                 {element.data.name}
               </a>
               {/* Keep date in default styling */}
-              <span className="text-sm text-gray-500" style={{ fontStyle }}>{element.data.date}</span>
+              <span className="text-sm text-gray-500" style={{ fontStyle }}>
+                {element.data.date}
+              </span>
             </div>
           </div>
-
         );
       case "project-desc":
         return (
@@ -511,9 +604,7 @@ export default function Resume() {
         return (
           <div className="text-sm text-gray-700 mb-2">
             {/* Apply font family and color to skill headings */}
-            <span className="font-medium">
-              {element.data.heading}:
-            </span>{" "}
+            <span className="font-medium">{element.data.heading}:</span>{" "}
             {/* Keep skill items in default styling */}
             {element.data.items}
           </div>
@@ -532,9 +623,13 @@ export default function Resume() {
                 </p>
               </div>
               <div className="text-right">
-                <span className="text-sm text-gray-500" style={{ fontStyle }}>{element.data.dateRange}</span>
+                <span className="text-sm text-gray-500" style={{ fontStyle }}>
+                  {element.data.dateRange}
+                </span>
                 {element.data.score && (
-                  <span className="text-sm text-gray-700 block">{element.data.score}</span>
+                  <span className="text-sm text-gray-700 block">
+                    {element.data.score}
+                  </span>
                 )}
               </div>
             </div>
@@ -549,7 +644,9 @@ export default function Resume() {
                 {element.data.title}
               </span>
               {/* Keep date in default styling */}
-              <span className="text-sm text-gray-500" style={{ fontStyle }}>{element.data.date}</span>
+              <span className="text-sm text-gray-500" style={{ fontStyle }}>
+                {element.data.date}
+              </span>
             </div>
             <a
               href={element.data.link}
@@ -560,26 +657,23 @@ export default function Resume() {
               {element.data.awarder}
             </a>
           </div>
-
         );
       case "achievement":
         return (
           <div className="mb-2">
             {/* Apply font family and color to achievement names */}
-            <div className="text-base font-medium">
-              {element.data.name}
-            </div>
+            <div className="text-base font-medium">{element.data.name}</div>
             {/* Keep details in default styling */}
-            <p className="text-sm text-gray-600" style={{ fontStyle }}>{element.data.details}</p>
+            <p className="text-sm text-gray-600" style={{ fontStyle }}>
+              {element.data.details}
+            </p>
           </div>
         );
       case "language":
         return (
           <div className="text-sm text-gray-700 mb-2">
             {/* Apply font family and color to language headings */}
-            <span className="font-medium">
-              {element.data.heading}:
-            </span>{" "}
+            <span className="font-medium">{element.data.heading}:</span>{" "}
             {/* Keep language proficiency in default styling */}
             {element.data.option}
           </div>
@@ -590,7 +684,10 @@ export default function Resume() {
   };
 
   return (
-    <div className="resume-container min-h-screen font-sans print:p-0" style={{ backgroundColor }}>
+    <div
+      className="resume-container min-h-screen font-sans print:p-0"
+      style={{ backgroundColor }}
+    >
       {/* Hidden content for measuring element heights */}
       <div
         ref={contentRef}
@@ -610,10 +707,15 @@ export default function Resume() {
             key={pageIndex}
             className={`page print-page bg-white text-gray-800 w-[230mm] mx-auto ${pageHeightClass} mb-[20px] shadow-lg print:h-auto print:shadow-none print:page-break-after-always print:mt-0 print:mb-0`}
           >
-            <div className={`content-wrapper p-8 ${contentHeightClass} print:p-0`}>
+            <div
+              className={`content-wrapper p-8 ${contentHeightClass} print:p-0`}
+            >
               {page.map((element: any, index: number) => (
                 <div key={element.id}>
-                  {renderElement(element, index === 0 || element.section !== page[index - 1]?.section)}
+                  {renderElement(
+                    element,
+                    index === 0 || element.section !== page[index - 1]?.section
+                  )}
                 </div>
               ))}
             </div>
@@ -623,7 +725,9 @@ export default function Resume() {
         <div
           className={`page print-page bg-white text-gray-800 w-full max-w-[230mm] mx-auto ${pageHeightClass} mb-[20px] shadow-lg print:h-auto print:shadow-none print:page-break-after-always print:mt-0 print:mb-0`}
         >
-          <div className={`content-wrapper p-8 ${contentHeightClass} print:p-0`}>
+          <div
+            className={`content-wrapper p-8 ${contentHeightClass} print:p-0`}
+          >
             <p className="text-center text-gray-500">Loading content...</p>
           </div>
         </div>

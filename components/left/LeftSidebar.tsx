@@ -110,7 +110,11 @@ export default function LeftSidebar() {
                 onChange={handleChangePersonal}
                 placeholder="Your Twitter profile"
               />
-              <svg className="absolute left-2 top-3 text-gray-500 w-4 h-4" viewBox="0 0 24 24" fill="none">
+              <svg
+                className="absolute left-2 top-3 text-gray-500 w-4 h-4"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
                 <path
                   d="M22 4.5a9 9 0 01-2.6.7 4.5 4.5 0 00-7.7 4c-4 0-7.5-2-10-5a4.5 4.5 0 001.5 6c-1 0-2-.3-2.5-1v.1a4.5 4.5 0 003.5 4.4 4.5 4.5 0 01-2 .1 4.5 4.5 0 004.2 3A9 9 0 012 19c2 1 4 1.5 6.5 1.5 7.5 0 12-6 12-12v-.5a8.5 8.5 0 002-2.5z"
                   stroke="currentColor"
@@ -131,7 +135,11 @@ export default function LeftSidebar() {
                 onChange={handleChangePersonal}
                 placeholder="Your LinkedIn profile"
               />
-              <svg className="absolute left-2 top-3 text-gray-500 w-4 h-4" viewBox="0 0 24 24" fill="none">
+              <svg
+                className="absolute left-2 top-3 text-gray-500 w-4 h-4"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
                 <path
                   d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"
                   stroke="currentColor"
@@ -139,8 +147,25 @@ export default function LeftSidebar() {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
-                <rect x="2" y="9" width="4" height="12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                <circle cx="4" cy="4" r="2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                <rect
+                  x="2"
+                  y="9"
+                  width="4"
+                  height="12"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <circle
+                  cx="4"
+                  cy="4"
+                  r="2"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
               </svg>
             </div>
           </div>
@@ -172,7 +197,11 @@ export default function LeftSidebar() {
                 onChange={handleChangePersonal}
                 placeholder="Your location"
               />
-              <svg className="absolute left-2 top-3 text-gray-500 w-4 h-4" viewBox="0 0 24 24" fill="none">
+              <svg
+                className="absolute left-2 top-3 text-gray-500 w-4 h-4"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
                 <path
                   d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"
                   stroke="currentColor"
@@ -236,7 +265,6 @@ export default function LeftSidebar() {
       <ProjectInput />
 
       <LanguageInput />
-
     </div>
   );
 }

@@ -226,7 +226,7 @@ export default function Luxary() {
     let currentHeight = 0;
     let i = 0;
 
-    const measureElementHeight = (element) => {
+    const measureElementHeight = (element : any) => {
       const elementNode = contentRef.current?.querySelector(`#${element.id}`);
       return elementNode?.scrollHeight || 0;
     };
@@ -301,7 +301,7 @@ export default function Luxary() {
   ]);
 
   // Render individual resume elements
-  const renderElement = (element, isFirstInSection) => {
+  const renderElement = (element : any) => {
     const linkStyle = underlineLinks ? "underline" : "no-underline";
     const iconDisplay = hideIcons ? "hidden" : "block";
 
@@ -315,7 +315,7 @@ export default function Luxary() {
       color: primaryColor,
     };
 
-    const adjustColor = (color, amount) => {
+    const adjustColor = (color : any, amount : any) => {
   let usePound = false;
 
   if (color[0] === "#") {
@@ -600,7 +600,7 @@ export default function Luxary() {
               {element.data.heading}:
             </span>
             <div className="flex flex-wrap gap-2 mt-1">
-              {element.data.items.split(",").map((item, index) => (
+              {element.data.items.split(",").map((item : any, index : any) => (
                 <span
                   key={index}
                   className="bg-blue-200 text-blue-800 px-3 py-1 rounded-full text-xs shadow-sm"
